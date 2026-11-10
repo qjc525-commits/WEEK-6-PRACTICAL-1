@@ -1,5 +1,9 @@
+
+let selectedKey = "";
+
 const KEY_WIDTH = 50;
 const SPACE_BAR_WIDTH = KEY_WIDTH * 3 + 20;
+
 let keys = [
     { name: "Q", x: 5, y: 420 }, { name: "W", x: 65, y: 420},
     { name: "E", x: 125, y: 420}, { name: "R", x: 185, y: 420},
@@ -10,10 +14,10 @@ let keys = [
     { name: "D", x: 150, y: 480}, { name: "F", x: 210, y: 480},
     { name: "G", x: 270, y: 480}, { name: "H", x: 330, y: 480},
     { name: "J", x: 390, y: 480}, { name: "K", x: 450, y: 480},
-    { name: "L", x: 510, y: 480}, { name: "Z", x: 5, y: 540}, 
+    { name: "L", x: 510, y: 480}, { name: "Z", x: 5, y: 540},
     { name: "X", x: 65, y: 540}, { name: "C", x: 125, y: 540},
     { name: "V", x: 185, y: 540}, { name: "B", x: 245, y: 540},
-    { name: "N", x: 305, y: 540}, { name: "M", x: 365, y: 540}, 
+    { name: "N", x: 305, y: 540}, { name: "M", x: 365, y: 540},
     { name: " ", x: 425, y: 540}
 ];
 
@@ -24,19 +28,39 @@ function setup() {
 
 function draw() {
     background(255);
+
     drawKeyboard();
+
+    fill(0);
+    textSize(35);
+    text(selectedKey, width / 2, 200);
 }
 
-/**
- * Draws the keyboard
- */
 function drawKeyboard() {
     for (let k of keys) {
+        fill(255);
+
         if (k.name === " ") {
             rect(k.x, k.y, SPACE_BAR_WIDTH, KEY_WIDTH);
         } else {
             square(k.x, k.y, KEY_WIDTH);
         }
+
+        fill(0);
+        textSize(20);
         text(k.name, k.x, k.y, KEY_WIDTH, KEY_WIDTH);
+    }
+}
+
+function mousePressed() {
+    for (let k of keys) {
+        if (
+            mouseX >= k.x &&
+            mouseX <= k.x + (k.name === " " ? SPACE_BAR_WIDTH : KEY_WIDTH) &&
+            mouseY >= k.y &&
+            mouseY <= k.y + KEY_WIDTH
+        ) {
+            selectedKey = selectedKey + k.name;
+        }
     }
 }
